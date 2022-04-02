@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bryn Kerslake - Student</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="picoctf2022sequences.css">
+    <style>
+a:link {
+  color: SkyBlue;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:visited {
+  color: white;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: blue;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:active {
+  color: white;
+  background-color: transparent;
+  text-decoration: underline;
+}
+</style>
+</head>
+    <body>
+    <div id="header" class="animated slideInDown" style="animation-delay:.2;">
+    <div id="title">Bryn Kerslake</div><br>
+    <div id="links">
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#work" style="margin:0px 60px;">Work</a>
+        <a href="index.html#projects" style="margin:0px 60px;">Projects/Blog</a>
+        <a href="index.html#contact">Contact</a>
+    </div>
+    </div>
+        <div id="middle">
+            <h1><p style="text-align:center">picoCTF 2022 - Sequences.py Challenge Writeup</p></h1>
+        </div>
+        <div id="portfolio">
+             <div id="skills"> 
+                 <br>
+                 <div>
+                        <p><br><br>
+                        <h2>Challenge Description</h2>
+                     <p>
+                           “I wrote this linear recurrence function, can you figure out how to make it run fast enough and get the flag? Download the code here sequences.py Note that even an efficient solution might take several seconds to run. If your solution is taking several minutes, then you may need to reconsider your approach.”
+                     </p>
+                     <br>
+                     <h2>Code Explanation and Analysis<br><a href="https://github.com/bkerslake/ctf-write-ups/blob/main/sequences.py">Link to challenge code</a></h2>
+                    <p>
+                    We have an encrypted flag in a variable aptly named “ENCRYPTED_FLAG,” which we can only access by using value “Sol” to decrypt it. Unfortunately, Sol can only be found by finding the two millionth term of the recursive function “m_func,” and obviously that’ll take far too long to compute using the function’s current form. So, we must find a quicker way to access Sol without running the recursive function.
+                    </p>
+                     <br>
+                     <h2>Solving:</h2>
+                     <p>
+                     So for starters, we’re actually also given a hint that helps us narrow down exactly how to approach this problem: “Google "matrix diagonalization". Can you figure out how to apply it to this function?”<br><br>
+                         After looking up matrix diagonalization, some of the examples mention the use of the Fibonacci sequence as an example of how recursive sequences can be defined using explicit formulae. And, when our recursive equation from the problem code is written out, it looks an awful lot like the Fibonacci sequence as well. 
+
+                     </p>
+                     <br><br>
+                     <div id = "img1">
+                        <img src="img1.png" class="img1">
+                     </div>
+                     <br><br>
+                     <p>
+                    After converting our original equation to matrices, we end up with something like this:
+                     </p>
+                     <br><br>
+                     <div id = "img2">
+                        <img src="img2.png" class="img2">
+                     </div>
+                     <br><br>
+                     <p>
+                     And after we have the base matrix (A), we can start diagonalizing A.  <br>
+The first step is to find the determinant, as well as the eigenvalues:
+
+                     </p>
+                     <br><br>
+                     <div id = "img3">
+                        <img src="img3.png" class="img3">
+                     </div>
+                     <br><br>
+                     <p>
+                     And then, to find the eigenvalues:
+                    
+                     </p>
+                     <br><br>
+                     <div id = "img4">
+                        <img src="img4.png" class="img4">
+                     </div>
+                     <br><br>
+                     <p>
+                     Phew! Now that we’re done with that, let’s go over the basics of diagonalization. See below:
+                     </p>
+                     <br><br>
+                     <div id = "img5">
+                        <img src="img5.png" class="img5">
+                     </div>
+                     <br><br>
+                     <p>
+                     So, in theory, we should be able to find the two millionth term by raising PDP inverse to the two millionth power, and multiplying by a matrix containing our 4 given terms (4,3,2,1).
+                     </p>
+                     <br><br>
+                     <div id = "img6">
+                        <img src="img6.png" class="img6">
+                     </div>
+                     <br><br>
+                     <p>
+                     There we go! Finished! See below for solution code:
+                     </p>
+                     <br><br>
+                     <div id = "img7">
+                        <img src="img7.png" class="img7">
+                     </div>
+                     <br>
+                     <p>
+                     <a href="https://github.com/bkerslake/ctf-write-ups/blob/main/solution.py">Source Code</a>
+                     </p>
+                     
+                     <br><br>
+                     <h2>References:</h2>
+                     <p>
+                    <a href="https://marksmath.org/classes/Spring2020LinearAlgebraII/LinearTalkToo/discussion/38/diagonalizing-a-matrix">MarkMath</a>, 
+                    <a href="https://www.emathhelp.net/en/linear-algebra-calculator/">eMathHelp</a>, 
+                    <a href="http://www.justinmath.com/recursive-sequence-formulas-via-diagonalization/">JustinMath</a>, 
+                    <a href="https://www.math.uh.edu/~jiwenhe/math2331/lectures/sec5_3.pdf">Univ. of Houston</a>
+                         <br><br>
+                         Mr. Runyon for help with the matrices, Mr. Voci for the Linear Algebra book, and Dashok for helping to translate my math into working code overnight!
+
+            
+                     </p>
+             </div>
+    <div id="footer">
+        Copyright 2022 Bryn Kerslake
+    </div>
+        </div>
+             </div>
+            
+
+
+<br>
+
+<h3></h3>
+
+</body>
+</html>
+    
